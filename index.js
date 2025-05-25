@@ -35,8 +35,9 @@ app.post('/checkout', async (req, res) => {
       const itmename = req.body.itmename;
       const userId = req.body.userId; // معرف المستخدم من Firebase
       const userEmail = req.body.userEmail; // البريد الإلكتروني
-      const password = req.body.password; // عنوان الشحن
-      const successUrl = `https://ghidhaalruwhusa.com/success?email=${encodeURIComponent(userEmail)}&password=${encodeURIComponent(password)}`;
+      const emaildata = req.body.userEmail; // البريد الإلكتروني
+      const password = req.body.password;
+      const successUrl = `https://ghidhaalruwhusa.com/success?email=${encodeURIComponent(emaildata)}&password=${encodeURIComponent(password)}`;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{
@@ -66,6 +67,7 @@ app.post('/checkout', async (req, res) => {
           productName:itmename,
           userId: userId, // تخزين معرف المستخدم في metadata
           // shippingAddress:shippingAddress
+          
         },
          shipping_address_collection: {
     allowed_countries: ['US', 'CA', 'GB', 'SA'], // حدد الدول المسموحة
@@ -150,7 +152,7 @@ app.get('/checkout-sessions', async (req, res) => {
         };
 
         return {
-          // id: s.id,
+          id: s.id,
           tax: s.total_details?.amount_tax / 100 || 0,
           payment_status: s.payment_status,
           amount_total: s.amount_total / 100,
