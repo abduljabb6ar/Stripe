@@ -35,7 +35,7 @@ app.post('/checkout', async (req, res) => {
       const itmename = req.body.itmename;
       const userId = req.body.userId; // معرف المستخدم من Firebase
       const userEmail = req.body.userEmail; // البريد الإلكتروني
-      const emaildata = req.body.userEmail; // البريد الإلكتروني
+      const emaildata = req.body.emaildata; // البريد الإلكتروني
       const password = req.body.password;
       const successUrl = `https://ghidhaalruwhusa.com/success?email=${encodeURIComponent(emaildata)}&password=${encodeURIComponent(password)}`;
       const session = await stripe.checkout.sessions.create({
